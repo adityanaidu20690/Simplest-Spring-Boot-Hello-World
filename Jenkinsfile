@@ -45,12 +45,7 @@ pipeline {
             }
         }
      
-     stage('deleting old .war') {
-            steps {
-                sh 'rm -rf /tmp/addydevops*'
-            }
-        }
-     stage('Downloading from nexus artifact') {
+         stage('Downloading from nexus artifact') {
             steps {
                ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/etc/ansible/fplay.yml'
             }
