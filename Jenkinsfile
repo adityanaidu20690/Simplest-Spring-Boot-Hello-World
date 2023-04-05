@@ -34,7 +34,7 @@ pipeline {
         }
      stage('publish the report') {
             steps {
-               dependencyCheckPublisher pattern: '/dependency-check-report.xml'
+               dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
     }
