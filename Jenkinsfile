@@ -34,14 +34,7 @@ pipeline {
         }
       stage('docker run') {
             steps {
-               sh '''touch Dockerfile
-cat<<EOT>> Dockerfile
-FROM openjdk:8-alpine
-WORKDIR /app
-COPY /tmp/addydevops-* app.jar
-EXPOSE 8082
-CMD ["java", "-jar", "app.jar"]
-EOT
+               sh '''
 docker build -t addytest .
 docker run -d -it --name addytest -p 8082:8080 addytest'''
             }
