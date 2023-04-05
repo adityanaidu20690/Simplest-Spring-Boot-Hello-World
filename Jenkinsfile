@@ -37,5 +37,10 @@ pipeline {
                 nexusPublisher nexusInstanceId: 'addydevops', nexusRepositoryId: 'addy-release', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '\'\'', extension: 'war', filePath: 'target/addydevops-1.0.0-SNAPSHOT.war']], mavenCoordinate: [artifactId: 'addydevops', groupId: 'orbartal', packaging: 'war', version: '1.0.0']]]
             }
         }
+     stage('Downloading from nexus artifact') {
+            steps {
+               ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/etc/ansible/fplay.yml'
+            }
+        }
     }
 }
