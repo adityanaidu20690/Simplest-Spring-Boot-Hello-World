@@ -32,6 +32,12 @@ pipeline {
                ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/etc/ansible/fplay.yml'
             }
         }
+      stage('docker run') {
+            steps {
+               sh '''docker build -t addytest .
+docker run -d -it --name addytest -p 8082:8080 addytest'''
+            }
+        }
      stage('publish the report') {
             steps {
                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
