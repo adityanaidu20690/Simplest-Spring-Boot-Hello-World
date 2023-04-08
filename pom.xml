@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>orbartal</groupId>
 	<artifactId>addydevops</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>war</packaging>
 
 	<parent>
@@ -45,4 +45,16 @@
 		</dependency> -->
 
 	</dependencies>
+	<distributionManagement>
+    <repository>
+        <id>addydevops</id>
+        <name>release softx</name>
+        <url>http://18.205.107.137:8081/repository/addy-release/</url>
+    </repository>
+    <snapshotRepository>
+        <id>addydevops</id>
+        <name>snapshot softx</name>
+        <url>http://18.205.107.137:8081/repository/addysnapshot/</url>
+    </snapshotRepository>
+</distributionManagement>
 </project>
