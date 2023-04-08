@@ -1,0 +1,14 @@
+---
+- name: playbook
+  hosts: localhost
+  tasks:
+  - maven_artifact:
+      group_id: orbartal
+      artifact_id: addydevops
+      version: 2.0.1
+      extension: war
+      repository_url: 'http://18.205.107.137:8081/repository/addydevops-group/'
+      username: admin
+      password: admin
+      dest: /tmp/addydevops-2.0.1.war
+      mode: 0644
