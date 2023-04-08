@@ -16,7 +16,7 @@ pipeline {
          
         stage('upload artifact') {
             steps {
-               nexusPublisher nexusInstanceId: 'addydevops', nexusRepositoryId: 'addydevops-release', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: 'war', filePath: 'target/addydevops-1.0.0.war']], mavenCoordinate: [artifactId: 'addydevops', groupId: 'orbartal', packaging: 'war', version: '1.0.0']]]
+               nexusPublisher nexusInstanceId: 'addydevops', nexusRepositoryId: 'addydevops-release', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: 'war', filePath: 'target/addydevops-1.0.1.war']], mavenCoordinate: [artifactId: 'addydevops', groupId: 'orbartal', packaging: 'war', version: '1.0.1']]]
             }
         }
      stage('sast owasp') {
@@ -29,13 +29,14 @@ pipeline {
      
          stage('Downloading from nexus artifact') {
             steps {
-              ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/etc/ansible/play.yml'                  
+            ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/etc/ansible/play.yml' 
            }
         }
       stage('docker run') {
             steps {
                sh '''
 docker build -t addytest .
+docker rm -f addytest
 docker run -d -it --name addytest -p 8082:8080 addytest'''
             }
         }
