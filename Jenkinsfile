@@ -29,7 +29,7 @@ pipeline {
      
          stage('Downloading from nexus artifact') {
             steps {
-            ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/var/lib/jenkins/workspace/pipeline/' 
+            ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/etc/ansible/play.yml' 
            }
         }
       stage('docker run') {
