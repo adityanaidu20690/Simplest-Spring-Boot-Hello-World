@@ -25,6 +25,8 @@ jobs:
     steps:
     - name: Check out the repo
       uses: actions/checkout@v2
+      with:
+        path: microservice
 
     - name: Set up JDK 11
       if: ${{ inputs.stage == 'dev' }}
@@ -34,7 +36,13 @@ jobs:
         distribution: 'adopt'
 
     - name: Build with Maven
-      run: mvn clean package -DskipTests
+      run: mvn --batch-mode --file ./microservice/Simplest-Spring-Boot-Hello-World/pom.xml dependency:purge-local-repository clean package deploy -DskipTests
+
+    - name: Publish Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: myjar
+        path: ./microservice/Simplest-Spring-Boot-Hello-World/target
 
     - name: Run Spring Boot application
       run: java -jar target/*.jar &
