@@ -47,14 +47,8 @@
 	</dependencies>
 	<distributionManagement>
     <repository>
-        <id>addydevops</id>
-        <name>release softx</name>
-        <url>http://18.205.107.137:8081/repository/addy-release/</url>
+        <id>mypackages</id>
+        <url>https://maven.pkg.github.com/adityanaidu20690/Simplest-Spring-Hello-World</url>
     </repository>
-    <snapshotRepository>
-        <id>addydevops</id>
-        <name>snapshot softx</name>
-        <url>http://18.205.107.137:8081/repository/addysnapshot/</url>
-    </snapshotRepository>
 </distributionManagement>
 </project>
