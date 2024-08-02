@@ -1,68 +1,39 @@
-# Maven package Java project Web App to Linux on Azure
-# Build your Java project and deploy it to Azure as a Linux web app
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Deploy
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- master
+- main
 
 variables:
+   - name: process.clean
+     value: false
 
-  # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: '1f32532b-eafb-476e-b9a3-0a224a24779f'
-
-  # Web app name
-  webAppName: ''
-
-  # Environment name
-  environmentName: ''
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+pool: Default
 
 stages:
 - stage: Build
   displayName: Build stage
-  jobs:
-  - job: MavenPackageAndPublishArtifacts
-    displayName: Maven Package and Publish Artifacts
-    pool:
-      vmImage: $(vmImageName)
-
+  jobs:  
+  - job: Build
+    displayName: Build Maven Project
     steps:
     - task: Maven@3
+      #env:
+      #  JAVA_HOME: /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
       displayName: 'Maven Package'
       inputs:
         mavenPomFile: 'pom.xml'
-
+        goals: 'package'
     - task: CopyFiles@2
       displayName: 'Copy Files to artifact staging directory'
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
         Contents: '**/target/*.?(war|jar)'
         TargetFolder: $(Build.ArtifactStagingDirectory)
-
-    - upload: $(Build.ArtifactStagingDirectory)
-      artifact: drop
-
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
-  condition: succeeded()
-  jobs:
-  - deployment: DeployLinuxWebApp
-    displayName: Deploy Linux Web App
-    environment: $(environmentName)
-    pool:
-      vmImage: $(vmImageName)
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureWebApp@1
-            displayName: 'Azure Web App Deploy: '
-            inputs:
-              azureSubscription: $(azureSubscription)
-              appType: webAppLinux
-              appName: $(webAppName)
-              package: '$(Pipeline.Workspace)/drop/**/target/*.?(war|jar)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: $(Build.ArtifactStagingDirectory)
+        artifactName: SampleSpringBootBuild
